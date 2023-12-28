@@ -78,7 +78,6 @@ export const columns: ColumnDef<Student>[] = [
           toast({
             title: "Success",
             description: "Student deleted successfully",
-            className: "bg-green-500 text-white",
           });
         },
       });
@@ -100,6 +99,11 @@ export const columns: ColumnDef<Student>[] = [
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => router.push(`/student/${student.id}`)}
+            >
+              Student detail
+            </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => router.push(`/student/edit/${student.id}`)}
             >

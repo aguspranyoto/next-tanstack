@@ -38,7 +38,6 @@ const EditPage = ({ params }: { params: { id: number } }) => {
       toast({
         title: "Success",
         description: "Student updated successfully",
-        className: "bg-green-500 text-white",
       });
       router.push("/student");
       router.refresh();

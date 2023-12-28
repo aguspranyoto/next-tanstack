@@ -32,7 +32,6 @@ const CreatePage = () => {
       toast({
         title: "Success",
         description: "Student created successfully",
-        className: "bg-green-500 text-white",
       });
       router.push("/student");
       router.refresh();

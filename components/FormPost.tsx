@@ -14,11 +14,20 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+
+type FormPost = {
+  name: string;
+  nim: number;
+  email: string;
+  age: number;
+};
 
 interface FormPostProps {
   submit: SubmitHandler<z.infer<typeof FormSchema>>;
   isEditing: boolean;
+  initialValues: FormPost;
+  isLoading: boolean;
 }
 
 const FormSchema = z.object({
@@ -39,16 +48,21 @@ const FormSchema = z.object({
   }),
 });
 
-const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
+const FormPost: FC<FormPostProps> = ({
+  submit,
+  isEditing,
+  initialValues,
+  isLoading,
+}) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: {
-      name: "",
-      nim: 0,
-      email: "",
-      age: 0,
-    },
+    defaultValues: initialValues,
   });
+
+  useEffect(() => {
+    // Update form default values when initialValues changes
+    form.reset(initialValues || {});
+  }, [initialValues, form]);
 
   return (
     <div>
@@ -76,6 +90,7 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
                 <FormControl>
                   <Input
                     placeholder="input nim"
+                    type="number"
                     {...field}
                     onChange={(event) =>
                       field.onChange(Number(event.target.value))
@@ -109,6 +124,7 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
                   <Input
                     placeholder="input age"
                     {...field}
+                    type="number"
                     onChange={(event) =>
                       field.onChange(Number(event.target.value))
                     }
@@ -118,7 +134,9 @@ const FormPost: FC<FormPostProps> = ({ submit, isEditing }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            {isLoading ? "Please wait..." : isEditing ? "Update" : "Create"}
+          </Button>
         </form>
       </Form>
     </div>

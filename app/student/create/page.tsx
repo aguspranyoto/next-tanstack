@@ -18,12 +18,12 @@ type FormPost = {
 const CreatePage = () => {
   const router = useRouter();
   const handleCreatePost: SubmitHandler<FormPost> = (data) => {
-    createPost(data);
+    mutation.mutate(data);
   };
 
-  const { mutate: createPost } = useMutation({
-    mutationFn: (newPost: FormPost) => {
-      return axios.post("/api/student", newPost);
+  const mutation = useMutation({
+    mutationFn: (newData: FormPost) => {
+      return axios.post("/api/student", newData);
     },
     onError: (error) => {
       console.log("error", error);
@@ -47,7 +47,17 @@ const CreatePage = () => {
           Back
         </Link>
       </div>
-      <FormPost submit={handleCreatePost} isEditing={false} />
+      <FormPost
+        initialValues={{
+          name: "",
+          nim: 0,
+          email: "",
+          age: 0,
+        }}
+        submit={handleCreatePost}
+        isLoading={mutation.isPending}
+        isEditing={false}
+      />
     </div>
   );
 };

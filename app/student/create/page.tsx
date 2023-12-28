@@ -6,6 +6,7 @@ import Link from "next/link";
 import { SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 type FormPost = {
   name: string;
@@ -28,8 +29,13 @@ const CreatePage = () => {
       console.log("error", error);
     },
     onSuccess: () => {
-      console.log("success");
+      toast({
+        title: "Success",
+        description: "Student created successfully",
+        className: "bg-green-500 text-white",
+      });
       router.push("/student");
+      router.refresh();
     },
   });
 

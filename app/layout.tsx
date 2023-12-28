@@ -4,6 +4,7 @@ import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
 import TanstackProvider from "@/providers/TanstackProvider";
+import { Toaster } from "@/components/ui/toaster";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function RootLayout({
         <div className="p-4 sm:ml-64">
           <div className="p-4 shadow-xl border border-gray-200 dark:border-gray-700 mt-14">
             <TanstackProvider>{children}</TanstackProvider>
+            <Toaster />
           </div>
         </div>
       </body>

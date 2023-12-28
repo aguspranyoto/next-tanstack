@@ -50,7 +50,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
     initialState: {
       pagination: {
-        pageSize: 3,
+        pageSize: 8,
       },
     },
     onSortingChange: setSorting,

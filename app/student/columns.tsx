@@ -15,6 +15,7 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "@/components/ui/use-toast";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -74,8 +75,10 @@ export const columns: ColumnDef<Student>[] = [
         },
         onSuccess: () => {
           router.refresh();
-          queryClient.invalidateQueries({
-            queryKey: ["students"],
+          toast({
+            title: "Success",
+            description: "Student deleted successfully",
+            className: "bg-green-500 text-white",
           });
         },
       });
@@ -97,7 +100,11 @@ export const columns: ColumnDef<Student>[] = [
               Copy ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/student/edit/${student.id}`)}
+            >
+              Edit
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => handleDelete(student.id)}>
               Delete
             </DropdownMenuItem>

@@ -20,16 +20,21 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  button: String;
+  link: String;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  button,
+  link,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -57,7 +62,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
+      <div className="flex gap-2 justify-between items-center py-4">
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -66,6 +71,9 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        <Link className={buttonVariants()} href={`${link}`}>
+          {button}
+        </Link>
       </div>
       <div className="rounded-md border">
         <Table>

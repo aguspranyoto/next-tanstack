@@ -23,23 +23,24 @@ import {
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  button: String;
-  link: String;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  button,
-  link,
 }: DataTableProps<TData, TValue>) {
+  const router = useRouter();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
+
   const table = useReactTable({
     data,
     columns,
@@ -71,9 +72,6 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <Link className={buttonVariants()} href={`${link}`}>
-          {button}
-        </Link>
       </div>
       <div className="rounded-md border">
         <Table>

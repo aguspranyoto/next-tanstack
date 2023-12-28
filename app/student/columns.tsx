@@ -12,6 +12,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -51,10 +54,31 @@ export const columns: ColumnDef<Student>[] = [
     header: "Age",
   },
   {
+    accessorKey: "actions",
+    header: "Actions",
     id: "actions",
     cell: ({ row }) => {
+      const queryClient = useQueryClient();
+      const router = useRouter();
       const student = row.original;
+      const handleDelete = async (id: number) => {
+        deletePost(id);
+      };
 
+      const { mutate: deletePost } = useMutation({
+        mutationFn: (id: number) => {
+          return axios.delete(`/api/student/delete/${id}`);
+        },
+        onError: (error) => {
+          console.log("error", error);
+        },
+        onSuccess: () => {
+          router.refresh();
+          queryClient.invalidateQueries({
+            queryKey: ["students"],
+          });
+        },
+      });
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -74,7 +98,9 @@ export const columns: ColumnDef<Student>[] = [
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => handleDelete(student.id)}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

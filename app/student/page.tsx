@@ -14,14 +14,14 @@ const StudentPage = async () => {
 
   return (
     <div>
-      <h2>Student page</h2>
+      <div className="flex justify-between">
+        <h2>Student page</h2>
+        <Link href="/student/create" className={buttonVariants()}>
+          Create
+        </Link>
+      </div>
       <div>
-        <DataTable
-          columns={columns}
-          data={students}
-          link="/student/create"
-          button="Create"
-        />
+        <DataTable columns={columns} data={students} />
       </div>
     </div>
   );
